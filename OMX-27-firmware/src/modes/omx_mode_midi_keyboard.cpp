@@ -862,7 +862,7 @@ bool OmxModeMidiKeyboard::onKeyUpdateSelMidiFX(OMXKeypadEvent e)
 						omxDisp.displayMessage(mfxOffMsg);
 					}
 				}
-				else if (thisKey == 22) // Goto arp params
+				else if (thisKey == 25) // Goto arp params //bleofix changed from 22
 				{
 					keyConsumed = true;
 					if (mfxIndex_ < NUM_MIDIFX_GROUPS)
@@ -900,7 +900,7 @@ bool OmxModeMidiKeyboard::onKeyUpdateSelMidiFX(OMXKeypadEvent e)
 						omxDisp.displayMessage(mfxOffMsg);
 					}
 				}
-				else if (thisKey == 25)
+				else if (thisKey == 22) //bleofix changed from 25
 				{
 					keyConsumed = true;
 					if (mfxIndex_ < NUM_MIDIFX_GROUPS)
@@ -921,7 +921,7 @@ bool OmxModeMidiKeyboard::onKeyUpdateSelMidiFX(OMXKeypadEvent e)
 						omxDisp.displayMessage(mfxOffMsg);
 					}
 				}
-				else if (thisKey == 26)
+				else if (thisKey == 21) //bleofix moved arp on here from 26 because it overlapped with toggle back to Grids
 				{
 					keyConsumed = true;
 					if (mfxIndex_ < NUM_MIDIFX_GROUPS)
@@ -1069,7 +1069,7 @@ void OmxModeMidiKeyboard::updateLEDs()
 		}
 
 		strip.setPixelColor(20, mfxQuickEdit_ && blinkState ? LEDOFF : colorConfig.mfxQuickEdit);
-		strip.setPixelColor(22, colorConfig.gotoArpParams);
+		strip.setPixelColor(25, colorConfig.gotoArpParams); //bleofix changed from 22
 		strip.setPixelColor(23, colorConfig.nextArpPattern);
 
 		if (mfxIndex_ < NUM_MIDIFX_GROUPS)
@@ -1090,12 +1090,12 @@ void OmxModeMidiKeyboard::updateLEDs()
 			bool isOn = subModeMidiFx[mfxIndex_].isArpOn() && blinkState;
 			bool isHoldOn = subModeMidiFx[mfxIndex_].isArpHoldOn();
 
-			strip.setPixelColor(25, isHoldOn ? colorConfig.arpHoldOn : colorConfig.arpHoldOff);
-			strip.setPixelColor(26, isOn ? colorConfig.arpOn : colorConfig.arpOff);
+			strip.setPixelColor(22, isHoldOn ? colorConfig.arpHoldOn : colorConfig.arpHoldOff); //bleofix changed from 25
+            strip.setPixelColor(21, isOn ? colorConfig.arpOn : colorConfig.arpOff);  //bleofix to correct color on changed key
 		}
 		else
 		{
-			strip.setPixelColor(25, colorConfig.arpHoldOff);
+			strip.setPixelColor(22, colorConfig.arpHoldOff); //bleofix changed from 25
 			strip.setPixelColor(26, colorConfig.arpOff);
 		}
 

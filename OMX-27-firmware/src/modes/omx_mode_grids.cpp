@@ -190,10 +190,10 @@ void OmxModeGrids::loopUpdate(Micros elapsedTime)
 
 	auto keyState = midiSettings.keyState;
 
-	f1_ = keyState[1] && !keyState[2];
-	f2_ = !keyState[1] && keyState[2];
-	f3_ = keyState[1] && keyState[2];
-	fNone_ = !keyState[1] && !keyState[2];
+	f1_ = keyState[0] && !keyState[2]; //bleofix change from 1 to 0 to make aux key function key
+	f2_ = !keyState[0] && keyState[2]; //bleofix change from 1 to 0 to make aux key function key
+	f3_ = keyState[0] && keyState[2]; //bleofix change from 1 to 0 to make aux key function key
+	fNone_ = !keyState[0] && !keyState[2]; //bleofix change from 1 to 0 to make aux key function key
 }
 
 void OmxModeGrids::setPageAndParam(uint8_t pageIndex, uint8_t paramPosition)
@@ -625,7 +625,7 @@ void OmxModeGrids::onKeyUpdate(OMXKeypadEvent e)
 
 	if (!e.held())
 	{
-		if (e.down() && thisKey == 0) // Aux key down
+		if (e.down() && thisKey == 1) // Aux key down: bleofix change from 0 to set key 1 to play
 		{
 			// Sequencer shouldn't be a dependancy here but current is used to advance clocks.
 			if (isPlaying_ && gridsAUX)
@@ -957,7 +957,7 @@ void OmxModeGrids::updateLEDs()
 		}
 		else
 		{
-			strip.setPixelColor(0, LEDOFF);
+			strip.setPixelColor(1, BLUE); //bleofix was OFF now BLUE to be consistent with M8 play
 		}
 	}
 
@@ -965,7 +965,7 @@ void OmxModeGrids::updateLEDs()
 	if (f3_)
 	{
 		auto f3Color = blinkState ? LEDOFF : FUNKTHREE;
-		strip.setPixelColor(1, f3Color);
+		strip.setPixelColor(0, f3Color); //bleofix to set color to changed keys
 		strip.setPixelColor(2, f3Color);
 	}
 	else
@@ -1020,7 +1020,7 @@ void OmxModeGrids::updateLEDsFNone()
 	{
 		// Change color of 4 GridX keys when pushed
 		// auto kColor = keyState[k + 11] ? (blinkState ? paramSelColors[k] : LEDOFF) : PINK;
-		auto kColor = keyState[k + 11] ? (blinkState ? paramSelColors[k] : LEDOFF) : BLUE;
+		auto kColor = keyState[k + 11] ? (blinkState ? paramSelColors[k] : LEDOFF) : PINK; //bleofix changed from BLUE
 
 		strip.setPixelColor(k + 11, kColor);
 	}
@@ -1065,7 +1065,7 @@ void OmxModeGrids::updateLEDsF1()
 		strip.setPixelColor(k + 11, LEDOFF);
 	}
 
-	strip.setPixelColor(26, ORANGE);
+	strip.setPixelColor(26, RED); //bleofix changed from ORANGE
 }
 
 void OmxModeGrids::updateLEDsChannelView()
@@ -1123,7 +1123,7 @@ void OmxModeGrids::updateLEDsChannelView()
 			}
 			else if (j == 10) // BPM
 			{
-				strip.setPixelColor(j, (keyState[9] ? WHITE : RED));
+				strip.setPixelColor(j, (keyState[10] ? WHITE : RED)); //bleofix keystate was 9
 			}
 			// else if (j == 10) // Tempo
 			// {
