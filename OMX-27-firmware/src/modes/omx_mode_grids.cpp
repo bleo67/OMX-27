@@ -953,7 +953,7 @@ void OmxModeGrids::updateLEDs()
 		{
 			// Blink left/right keys for octave select indicators.
 			auto color1 = blinkState ? LIME : LEDOFF;
-			strip.setPixelColor(0, color1);
+			strip.setPixelColor(1, color1); //bleofix was 0
 		}
 		else
 		{
@@ -971,7 +971,7 @@ void OmxModeGrids::updateLEDs()
 	else
 	{
 		auto f1Color = (f1_ && blinkState) ? LEDOFF : FUNKONE;
-		strip.setPixelColor(1, f1Color);
+		strip.setPixelColor(0, f1Color); //bleofix to set color to changed keys
 
 		auto f2Color = (f2_ && blinkState) ? LEDOFF : FUNKTWO;
 		strip.setPixelColor(2, f2Color);
